@@ -60,3 +60,7 @@
   display: flex;
   flex-direction: column;
 }
+
+.PlayerCharacterTable {
+  display: flex;
+}
