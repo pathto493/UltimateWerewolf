@@ -21,7 +21,9 @@ function App() {
   const [playerInputValue, setplayerInputValue] = useState('empty')
   const [playerArrayHolder, setplayerArrayHolder] = useState([])
   const [characters, setcharacters] = useState([])
+  const [Randomcharacters, setRandomcharacters] = useState([])
   const [isItUpdating, setisItUpdating] = useState(false)
+  const [swapCharacterIndex, setswapCharacterIndex] = useState(0)
 
   const playerInput = (value) => {
     setplayerInputValue(value)
@@ -44,6 +46,61 @@ function App() {
     // setisItUpdating(false)
 
   }
+
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  function shuffleCharacters() {
+    // get the max lenght of array
+    console.log(characters.length)
+    // use a random num generator to call out the item in array by position
+    let index = getRandomInt(characters.length)
+    // push that new item into a new array and delete the item from the original array
+    // console.log(characters[2])
+    Randomcharacters.push(characters[index])
+    characters.splice(index, 1)
+  }
+
+  function StartShuffle() {
+    let x = 0
+    while (characters.length !== 0) {
+      shuffleCharacters()
+      // console.log(Randomcharacters)
+      // console.log(characters)
+      if (x === 5) {
+      console.log(x)
+      break;
+      } else {
+        x++
+      }
+    }
+    setcharacters(Randomcharacters)
+    setRandomcharacters([])
+  }
+
+  function swapCharacters(itemAIndex, itemBIndex, array, setter) {
+    let select = document.getElementById('swap');
+    console.log(`showingSelected ${select.selected}`)
+    // store the original value of item A and item B
+    let itemA = array[itemAIndex]
+    let itemB = array[itemBIndex]
+    // make index of item A to be B and make index of item B to be A
+    array[itemAIndex] = itemB
+    array[itemBIndex] = itemA
+    setter(array)
+    console.log(array)
+    setwhatValue('wait')
+    setTimeout(function () {
+      setwhatValue('play')
+    }, 1000);
+
+  }
+
+  function testSwap(array) {
+    console.log(array)
+  }
+
   function temp() {
     let x =1
   }
@@ -154,13 +211,22 @@ function App() {
               <h1>input names to randomize</h1>
               <input type="text" onChange={(e) => playerInput(e.target.value)}/>
               <button onClick={() => setValue()}>Set Value</button>
+              <button onClick={() => StartShuffle ()}>Randomize</button>
             </div>
             {/* {table()} */}
             <div className="PlayerCharacterTable">
               <table>
-                <tr>
+                {playerArrayHolder.length !== 0 ?
+                  <tr>
+                    <th>Name Added</th>
+                  </tr>
+                  :
+                  temp()
+                }
+                {/* <button onClick={() => console.log(playerArrayHolder.length)}>testPlayerArray</button> */}
+                {/* <tr>
                   <th>Name Added</th>
-                </tr>
+                </tr> */}
                 {playerArrayHolder.map((player) => (
                   <tr>
                     <th key={playerArrayHolder.indexOf(player)}>{player}</th>
@@ -175,12 +241,43 @@ function App() {
                 {characters.map((character) => (
                   <tr>
                     <th key={characters.indexOf(character)}>{character}</th>
+                    <button onClick={() => swapCharacters(characters.indexOf(character), swapCharacterIndex, characters, setcharacters)}>Swap</button>
+                    {/* <th onClick={() => swapCharacters(characters.indexOf(character), swapCharacterIndex, characters, setcharacters)}>swap</th> */}
+                    <select id="swap" onChange={(e) => setswapCharacterIndex(e.target.value)}>
+                      {characters.map((character)=> (
+                        <option value={characters.indexOf(character)}>{character}</option>
+                      ))}
+                      {/* <option value="en" selected>English</option>
+                      <option value="es">Español</option>
+                      <option value="pt">Português</option> */}
+                    </select>
                   </tr>
                 ))
                 }
               </table>
             </div>
             <button type="button" className="btn btn-primary" onClick={() => setwhatValue('empty')}>Back</button>
+          </div>
+        )
+      case 'wait':
+        return (
+          <div>
+            <div className="container">
+              <table>
+                <tr>
+                  <th>Character Added</th>
+                </tr>
+                {TableCharacters(isItUpdating)}
+              </table>
+              <h1>input names to randomize</h1>
+              <input type="text" onChange={(e) => playerInput(e.target.value)} />
+              <button onClick={() => setValue()}>Set Value</button>
+              <button onClick={() => StartShuffle()}>Randomize</button>
+            </div>
+            {/* {table()} */}
+            <div className="PlayerCharacterTable">
+              <h1>Wait Updating</h1>
+            </div>
           </div>
         )
       case 'instruction':
