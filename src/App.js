@@ -96,9 +96,14 @@ function App() {
     }, 1000);
 
   }
-
-  function testSwap(array) {
-    console.log(array)
+  const [listReady, setlistReady] = useState(false)
+  function PlayerListReady() {
+    if (playerArrayHolder.length === characters.length) {
+      setlistReady(true)
+    }
+    else {
+      alert('Number of player is not equal to number of character selected')
+    }
   }
 
   function temp() {
@@ -213,27 +218,33 @@ function App() {
               <button onClick={() => setValue()}>Set Value</button>
               <button onClick={() => StartShuffle ()}>Randomize</button>
             </div>
+            <div>
+              <h2>Player List</h2>
+              {playerArrayHolder.map((player) => (
+                <tr>
+                  <th key={playerArrayHolder.indexOf(player)}>{player}</th>
+                </tr>
+              ))
+              }
+            </div>
+            <button onClick={() => PlayerListReady()}>Use This</button>
             {/* {table()} */}
             <div className="PlayerCharacterTable">
-              <table>
-                {playerArrayHolder.length !== 0 ?
+              {listReady === true ?
+                <table>
                   <tr>
                     <th>Name Added</th>
                   </tr>
+                  {playerArrayHolder.map((player) => (
+                    <tr>
+                      <th key={playerArrayHolder.indexOf(player)}>{player}</th>
+                    </tr>
+                    ))
+                    }
+                </table>
                   :
                   temp()
                 }
-                {/* <button onClick={() => console.log(playerArrayHolder.length)}>testPlayerArray</button> */}
-                {/* <tr>
-                  <th>Name Added</th>
-                </tr> */}
-                {playerArrayHolder.map((player) => (
-                  <tr>
-                    <th key={playerArrayHolder.indexOf(player)}>{player}</th>
-                  </tr>
-                ))
-                }
-              </table>
               <table>
                 <tr>
                   <th>Character</th>
