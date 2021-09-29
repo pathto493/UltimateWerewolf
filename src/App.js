@@ -118,7 +118,7 @@ function App() {
     } else {
       return (
         characters.map((character) => (
-          <tr>
+          <tr className="characterListTable">
             <th key={characters.indexOf(character)}>{character}</th>
             <button onClick={() => deleteCharacter(character)}>delete</button>
           </tr>
@@ -142,65 +142,77 @@ function App() {
     switch (value) {
       case 'character':
         return(
-          <div>
-            <table>
-              <tr>
-                <th>Character Added</th>
-              </tr>
-              {TableCharacters(isItUpdating)}
-            </table>
-            <div className="container">
-              {/* roles that do wakeup */}
-              {/* first role of 4 */}
-              {/* <div onClick={() => window.open("https://one-night.fandom.com/wiki/Doppelg%C3%A4nger")}>
-                <img src={Doppelganger} alt="Doppelganger" />
-              </div> */}
-              <div onClick={() => addCharacter('werewolf')}>
-                <img src={Werewolf} alt="Werewolf" />
-                {/* <p>Werewolves</p> */}
+          <div className="CharacterSelectionMainContainer">
+            <div className="TopBar">
+              <div className="CharacterSelectionInstruction">
+                <h1>Click on the characters cards to select it</h1>
               </div>
-              {/* <div onClick={() => window.open("https://one-night.fandom.com/wiki/Minion")}>
-                <img src={Minion} alt="Minion" />
-              </div> */}
-              {/* <div onClick={() => window.open("https://one-night.fandom.com/wiki/Mason")}>
-                <img src={Mason} alt="Mason" />
-              </div> */}
-              <div onClick={() => addCharacter('Seer')}>
-                <img src={Seer} alt="Seer" />
-                {/* <p>Seer</p> */}
+              <div className="CharacterAdded">
+                  <h1>Character Added</h1>
               </div>
-              <div onClick={() => addCharacter('Robber')}>
-                <img src={Robber} alt="Robber" />
-                {/* <p>Robber</p> */}
-              </div>
-              <div onClick={() => addCharacter('Troublemaker')}>
-                <img src={Troublemaker} alt="Troublemaker" />
-                {/* <p>Troublemaker</p> */}
-              </div>
-              {/* <div onClick={() => window.open("https://one-night.fandom.com/wiki/Drunk")}>
-                <img src={Drunk} alt="Drunk" />
-              </div> */}
-              <div onClick={() => addCharacter('Insomniac')}>
-                <img src={Insomniac} alt="Insomniac" />
-                {/* <p>Insomniac</p> */}
-              </div>
-              {/* roles that do not wake */}
-              <div onClick={() => addCharacter('Villager')}>
-                <img src={Villager} alt="Villager" />
-                {/* <p>Villager</p> */}
-              </div>
-              <div onClick={() => addCharacter('Hunter')}>
-                <img src={Hunter} alt="Hunter" />
-              </div>
-              {/* <div onClick={() => window.open("https://one-night.fandom.com/wiki/Tanner")}>
-                <img src={Tanner} alt="Tanner" />
-              </div> */}
             </div>
-            <div className="my-3">
-              <button type="button" className="btn btn-primary" onClick={() => setwhatValue('empty')}>Back</button>
+            <div className="CharacterSelectionBox">
+              <div>
+                <div className="container">
+                  {/* roles that do wakeup */}
+                  {/* first role of 4 */}
+                  {/* <div onClick={() => window.open("https://one-night.fandom.com/wiki/Doppelg%C3%A4nger")}>
+                    <img src={Doppelganger} alt="Doppelganger" />
+                  </div> */}
+                  <div onClick={() => addCharacter('werewolf')}>
+                    <img src={Werewolf} alt="Werewolf" />
+                    {/* <p>Werewolves</p> */}
+                  </div>
+                  {/* <div onClick={() => window.open("https://one-night.fandom.com/wiki/Minion")}>
+                    <img src={Minion} alt="Minion" />
+                  </div> */}
+                  {/* <div onClick={() => window.open("https://one-night.fandom.com/wiki/Mason")}>
+                    <img src={Mason} alt="Mason" />
+                  </div> */}
+                  <div onClick={() => addCharacter('Seer')}>
+                    <img src={Seer} alt="Seer" />
+                    {/* <p>Seer</p> */}
+                  </div>
+                  <div onClick={() => addCharacter('Robber')}>
+                    <img src={Robber} alt="Robber" />
+                    {/* <p>Robber</p> */}
+                  </div>
+                  <div onClick={() => addCharacter('Troublemaker')}>
+                    <img src={Troublemaker} alt="Troublemaker" />
+                    {/* <p>Troublemaker</p> */}
+                  </div>
+                  {/* <div onClick={() => window.open("https://one-night.fandom.com/wiki/Drunk")}>
+                    <img src={Drunk} alt="Drunk" />
+                  </div> */}
+                  <div onClick={() => addCharacter('Insomniac')}>
+                    <img src={Insomniac} alt="Insomniac" />
+                    {/* <p>Insomniac</p> */}
+                  </div>
+                  {/* roles that do not wake */}
+                  <div onClick={() => addCharacter('Villager')}>
+                    <img src={Villager} alt="Villager" />
+                    {/* <p>Villager</p> */}
+                  </div>
+                  <div onClick={() => addCharacter('Hunter')}>
+                    <img src={Hunter} alt="Hunter" />
+                  </div>
+                  {/* <div onClick={() => window.open("https://one-night.fandom.com/wiki/Tanner")}>
+                    <img src={Tanner} alt="Tanner" />
+                  </div> */}
+                </div>
+                <div className="my-3">
+                  <button type="button" className="btn btn-primary" onClick={() => setwhatValue('empty')}>Back</button>
+                </div>
+                {showPlayButton(characters)}
+                {/* <button type="button" className="btn btn-primary" onClick={() => setwhatValue('play')}>Play</button> */}
+              </div>
+              <table className="SelectedCharacterDisplayTable">
+                  {/* <tr>
+                    <th>Character Added</th>
+                  </tr> */}
+                  {TableCharacters(isItUpdating)}
+                </table>
             </div>
-            {showPlayButton(characters)}
-            {/* <button type="button" className="btn btn-primary" onClick={() => setwhatValue('play')}>Play</button> */}
           </div>
         )
       case 'play':
@@ -267,7 +279,7 @@ function App() {
                 }
               </table>
             </div>
-            <button type="button" className="btn btn-primary" onClick={() => setwhatValue('empty')}>Back</button>
+            <button type="button" className="btn btn-primary" onClick={() => setwhatValue('character')}>Back</button>
           </div>
         )
       case 'wait':
