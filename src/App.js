@@ -23,7 +23,12 @@ function App() {
   const [characters, setcharacters] = useState([])
   const [Randomcharacters, setRandomcharacters] = useState([])
   const [isItUpdating, setisItUpdating] = useState(false)
+  const [isItUpdatingPlayerList, setisItUpdatingPlayerList] = useState(false)
   const [swapCharacterIndex, setswapCharacterIndex] = useState(0)
+
+  // duplicate counter
+  const [WereWolfCount, setWereWolfCount] = useState(0)
+  const [VillagerCount, setVillagerCount] = useState(0)
 
   const playerInput = (value) => {
     setplayerInputValue(value)
@@ -32,19 +37,68 @@ function App() {
     setplayerArrayHolder((initialValue) => [...initialValue, playerInputValue])
   }
 
+  function deletePlayer(role) {
+    setisItUpdatingPlayerList(true)
+    playerArrayHolder.splice(playerArrayHolder.indexOf(role), 1)
+    setTimeout(function () {
+      setisItUpdatingPlayerList(false)
+    }, 500);
+  }
+
   function addCharacter(characterToAdd) {
-    setcharacters((initialvalue) => [...initialvalue, characterToAdd])
+    switch (characterToAdd) {
+      case 'werewolf':
+        setWereWolfCount(WereWolfCount + 1)
+        if (WereWolfCount !== 0) {
+          let duplicateCharacter = `${characterToAdd}${WereWolfCount}`
+          setcharacters((initialvalue) => [...initialvalue, duplicateCharacter])
+        } else {
+          setcharacters((initialvalue) => [...initialvalue, characterToAdd])
+        }
+        break;
+      case 'villager':
+        setVillagerCount(VillagerCount + 1)
+        if (VillagerCount !== 0) {
+          let duplicateCharacterVIllager = `${characterToAdd}${VillagerCount}`
+          setcharacters((initialvalue) => [...initialvalue, duplicateCharacterVIllager])
+        } else {
+          setcharacters((initialvalue) => [...initialvalue, characterToAdd])
+        }
+        break;
+      default:
+        setcharacters((initialvalue) => [...initialvalue, characterToAdd])
+    }
+    // let CharacterName = characterToAdd
+    // let marker = 1
+    // if (characters.includes(characterToAdd) === true) {
+    //   CharacterName = `${characterToAdd} ${marker}`
+    //   if (characters.includes(CharacterName) === true) {
+    //     marker ++
+    //     CharacterName = `${characterToAdd} ${marker}`
+    //     setcharacters((initialvalue) => [...initialvalue, CharacterName])
+    //   } else {
+    //     setcharacters((initialvalue) => [...initialvalue, CharacterName])
+    //   }
+    // } else {
+    //   setcharacters((initialvalue) => [...initialvalue, characterToAdd])
+    // }
   }
 
   function deleteCharacter(role) {
     setisItUpdating(true)
+    if (role.includes('werewolf') === true) {
+      setWereWolfCount(WereWolfCount - 1)
+    } else {
+      if (role.includes('villager') === true) {
+        setVillagerCount(VillagerCount - 1)
+      } else {
+        temp()
+      }
+    }
     characters.splice(characters.indexOf(role), 1)
     setTimeout(function () {
-      //your code to be executed after 1 second
       setisItUpdating(false)
     }, 500);
-    // setisItUpdating(false)
-
   }
 
   function getRandomInt(max) {
@@ -61,14 +115,17 @@ function App() {
     Randomcharacters.push(characters[index])
     characters.splice(index, 1)
   }
-
+  const [shuffleStatus, setshuffleStatus] = useState(false)
   function StartShuffle() {
+    console.log(characters)
+    console.log(characters.length)
     let x = 0
     while (characters.length !== 0) {
+      setshuffleStatus(true)
       shuffleCharacters()
-      // console.log(Randomcharacters)
-      // console.log(characters)
-      if (x === 5) {
+      console.log(Randomcharacters)
+      console.log(characters)
+      if (x === 10) {
       console.log(x)
       break;
       } else {
@@ -77,11 +134,43 @@ function App() {
     }
     setcharacters(Randomcharacters)
     setRandomcharacters([])
+    setTimeout(function () {
+      setshuffleStatus(false)
+    }, 500);
+  }
+
+  const isitShuffling = (yesOrNo,classForRow) => {
+    if (yesOrNo === true) {
+      return (
+        <h2>Please wait we are shuffling</h2>
+      )
+    } else {
+      return (
+        <table>
+          <tr className="mb-4">
+            <th>Character</th>
+          </tr>
+          {characters.map((character) =>
+            (
+            <tr key={characters.indexOf(character)} className={classForRow}>
+                <p className="playCharacter">{character}</p>
+              <button className="btn btn-success" onClick={() => swapCharacters(characters.indexOf(character), swapCharacterIndex, characters, setcharacters)}>Swap</button>
+                <select id="swap" onChange={(e) => setswapCharacterIndex(e.target.value)}>
+                  {characters.map((character) => (
+                    <option value={characters.indexOf(character)}>{character}</option>
+                  ))}
+                </select>
+              </tr>
+            )
+          )
+          }
+        </table>
+      )
+    }
   }
 
   function swapCharacters(itemAIndex, itemBIndex, array, setter) {
     let select = document.getElementById('swap');
-    console.log(`showingSelected ${select.selected}`)
     // store the original value of item A and item B
     let itemA = array[itemAIndex]
     let itemB = array[itemBIndex]
@@ -89,7 +178,6 @@ function App() {
     array[itemAIndex] = itemB
     array[itemBIndex] = itemA
     setter(array)
-    console.log(array)
     setwhatValue('wait')
     setTimeout(function () {
       setwhatValue('play')
@@ -99,7 +187,7 @@ function App() {
   const [listReady, setlistReady] = useState(false)
   function PlayerListReady() {
     if (playerArrayHolder.length === characters.length) {
-      setlistReady(true)
+      setwhatValue('play')
     }
     else {
       alert('Number of player is not equal to number of character selected')
@@ -127,11 +215,27 @@ function App() {
     }
   }
 
+  const playerList = (isItUpdating) => {
+    if (isItUpdating === true) {
+      return (
+        <h2>Please wait we are updating</h2>
+      )
+    } else {
+      return (
+          playerArrayHolder.map((player) => (
+            <tr className="characterListTable">
+              <th key={playerArrayHolder.indexOf(player)}>{player}</th>
+              <button onClick={() => deletePlayer(player)}>delete</button>
+            </tr>
+          ))
+      )
+    }
+  }
+
   const showPlayButton = (value) => {
-    console.log(value)
     if (value.length !== 0) {
       return (
-        <button type="button" className="btn btn-primary" onClick={() => setwhatValue('play')}>Play</button>
+        <button type="button" className="btn btn-success btn-lg" onClick={() => setwhatValue('playerInput')}>Add Players</button>
       )
     } else {
       temp()
@@ -148,7 +252,7 @@ function App() {
                 <h1>Click on the characters cards to select it</h1>
               </div>
               <div className="CharacterAdded">
-                  <h1>Character Added</h1>
+                <h1>{characters.length} Character Added</h1>
               </div>
             </div>
             <div className="CharacterSelectionBox">
@@ -189,7 +293,7 @@ function App() {
                     {/* <p>Insomniac</p> */}
                   </div>
                   {/* roles that do not wake */}
-                  <div onClick={() => addCharacter('Villager')}>
+                  <div onClick={() => addCharacter('villager')}>
                     <img src={Villager} alt="Villager" />
                     {/* <p>Villager</p> */}
                   </div>
@@ -200,10 +304,11 @@ function App() {
                     <img src={Tanner} alt="Tanner" />
                   </div> */}
                 </div>
-                <div className="my-3">
-                  <button type="button" className="btn btn-primary" onClick={() => setwhatValue('empty')}>Back</button>
+                <div className="characterSelectionbackButton">
+                  <button type="button" className="btn btn-primary btn-lg" onClick={() => setwhatValue('empty')}>Back</button>
+                  {showPlayButton(characters)}
                 </div>
-                {showPlayButton(characters)}
+
                 {/* <button type="button" className="btn btn-primary" onClick={() => setwhatValue('play')}>Play</button> */}
               </div>
               <table className="SelectedCharacterDisplayTable">
@@ -211,96 +316,92 @@ function App() {
                     <th>Character Added</th>
                   </tr> */}
                   {TableCharacters(isItUpdating)}
-                </table>
+              </table>
+            </div>
+          </div>
+        )
+      case 'playerInput':
+        return (
+          <div className="CharacterSelectionMainContainer">
+            <div className="TopBar">
+              <div className="CharacterSelectionInstruction">
+                <h1>Add Player</h1>
+              </div>
+              <div>
+                <h1>{playerArrayHolder.length} Players</h1>
+              </div>
+              <div className="CharacterAdded">
+                <h1>{characters.length} Characters</h1>
+              </div>
+            </div>
+            <div className="CharacterSelectionBox">
+              <div>
+                <div className="playerAddBox">
+                  {/* <h1>input names to randomize</h1> */}
+                  <input type="text" onChange={(e) => playerInput(e.target.value)} />
+                  <button onClick={() => setValue()}>Add Player</button>
+                  {/* <button onClick={() => StartShuffle()}>Randomize</button> */}
+                </div>
+              </div>
+              <table>
+                {playerList(isItUpdatingPlayerList)}
+              </table>
+              <table className="SelectedCharacterDisplayTable">
+                {TableCharacters(isItUpdating)}
+              </table>
+            </div>
+            <div className="characterSelectionbackButton">
+              <button type="button" className="btn btn-primary btn-lg" onClick={() => setwhatValue('character')}>Back</button>
+              {/* {showPlayButton(characters)} */}
+              <button className="btn btn-success btn-lg" onClick={() => PlayerListReady()}>play</button>
             </div>
           </div>
         )
       case 'play':
+        console.log(characters)
         return (
-          <div>
-            <div className="container">
-              <table>
-                <tr>
-                  <th>Character Added</th>
-                </tr>
-                {TableCharacters(isItUpdating)}
-              </table>
-              <h1>input names to randomize</h1>
-              <input type="text" onChange={(e) => playerInput(e.target.value)}/>
-              <button onClick={() => setValue()}>Set Value</button>
-              <button onClick={() => StartShuffle ()}>Randomize</button>
-            </div>
-            <div>
-              <h2>Player List</h2>
-              {playerArrayHolder.map((player) => (
-                <tr>
-                  <th key={playerArrayHolder.indexOf(player)}>{player}</th>
-                </tr>
-              ))
-              }
-            </div>
-            <button onClick={() => PlayerListReady()}>Use This</button>
-            {/* {table()} */}
+          <div className="playMainContainer">
             <div className="PlayerCharacterTable">
-              {listReady === true ?
-                <table>
-                  <tr>
-                    <th>Name Added</th>
-                  </tr>
-                  {playerArrayHolder.map((player) => (
-                    <tr>
-                      <th key={playerArrayHolder.indexOf(player)}>{player}</th>
-                    </tr>
-                    ))
-                    }
-                </table>
-                  :
-                  temp()
-                }
               <table>
-                <tr>
-                  <th>Character</th>
+                <tr className="mb-4">
+                  <th>Name Added</th>
                 </tr>
-                {characters.map((character) => (
-                  <tr>
-                    <th key={characters.indexOf(character)}>{character}</th>
-                    <button onClick={() => swapCharacters(characters.indexOf(character), swapCharacterIndex, characters, setcharacters)}>Swap</button>
-                    {/* <th onClick={() => swapCharacters(characters.indexOf(character), swapCharacterIndex, characters, setcharacters)}>swap</th> */}
-                    <select id="swap" onChange={(e) => setswapCharacterIndex(e.target.value)}>
-                      {characters.map((character)=> (
-                        <option value={characters.indexOf(character)}>{character}</option>
-                      ))}
-                      {/* <option value="en" selected>English</option>
-                      <option value="es">Español</option>
-                      <option value="pt">Português</option> */}
-                    </select>
+                {playerArrayHolder.map((player) => (
+                  <tr className="playerRow">
+                    <th key={playerArrayHolder.indexOf(player)}>{player}</th>
                   </tr>
                 ))
                 }
               </table>
+              {isitShuffling(shuffleStatus, "characterRow")}
+              {/* <table>
+                <tr className="mb-4">
+                  <th>Character</th>
+                </tr>
+                {characters.map((character) => (
+                  <tr key={characters.indexOf(character)} className="characterRow">
+                    <p className="playCharacter">{character}</p>
+                    <button onClick={() => swapCharacters(characters.indexOf(character), swapCharacterIndex, characters, setcharacters)}>Swap</button>
+                    <select id="swap" onChange={(e) => setswapCharacterIndex(e.target.value)}>
+                      {characters.map((character)=> (
+                        <option value={characters.indexOf(character)}>{character}</option>
+                      ))}
+                    </select>
+                  </tr>
+                ))
+                }
+              </table> */}
             </div>
-            <button type="button" className="btn btn-primary" onClick={() => setwhatValue('character')}>Back</button>
+            <div className="playPageButtonBox">
+              <button className="btn btn-info btn-lg" onClick={() => StartShuffle()}>Randomize</button>
+              <button type="button" className="btn btn-primary btn-lg" onClick={() => setwhatValue('playerInput')}>Back</button>
+            </div>
           </div>
         )
       case 'wait':
         return (
-          <div>
-            <div className="container">
-              <table>
-                <tr>
-                  <th>Character Added</th>
-                </tr>
-                {TableCharacters(isItUpdating)}
-              </table>
-              <h1>input names to randomize</h1>
-              <input type="text" onChange={(e) => playerInput(e.target.value)} />
-              <button onClick={() => setValue()}>Set Value</button>
-              <button onClick={() => StartShuffle()}>Randomize</button>
-            </div>
-            {/* {table()} */}
-            <div className="PlayerCharacterTable">
-              <h1>Wait Updating</h1>
-            </div>
+          <div className="PlayerCharacterTable">
+            <h1>Please Wait We Are Updating</h1>
           </div>
         )
       case 'instruction':
