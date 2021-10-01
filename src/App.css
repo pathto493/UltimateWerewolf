@@ -14,7 +14,10 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  /* background-color: #282c34; */
+  background-image: url(./images/FullMoon.jpeg);
+  background-size: cover;
+  background-position: center;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -41,6 +44,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-gap: 16px;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
 }
 
 .container img {
@@ -52,8 +57,17 @@
 .buttonBox {
   display: flex;
   justify-content: center;
-  height: 5vh;
+  height: 50vh;
+  width: auto;
   margin: 2rem;
+}
+
+.buttonBox  img{
+  width: 23vw;
+  height: auto;
+  opacity: 0.8;
+  margin-right: 5rem;
+  cursor: pointer;
 }
 
 .outerBox {
@@ -69,6 +83,8 @@
   display: grid;
   grid-template-columns: 4fr 4fr;
   padding: 2rem;
+  background-color: #958776;
+  opacity: 0.8;
 }
 
 .PlayerCharacterTable table {
@@ -108,8 +124,9 @@
 }
 
 /* .SelectedCharacterDisplayTable th {
-  margin-bottom: 2rem;
+  background-color: black;
 } */
+
 .TopBar {
   display: flex;
   align-items: center;
@@ -184,6 +201,7 @@
   bottom: -12rem;
   align-items: center;
   justify-content: center; */
+  margin-top: 2rem;
 }
 
 .playPageButtonBox button{
@@ -197,4 +215,16 @@
 .playMainContainer {
   display: flex;
   flex-direction: column;
+}
+
+.defaultPageBox h1{
+  font-size: 4rem;
+  color: #E3E36A;
+  letter-spacing: 5px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.instructionTitle {
+  font-size: 4rem;
+  letter-spacing: 5px;
 }

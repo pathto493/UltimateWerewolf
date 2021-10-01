@@ -4,17 +4,20 @@ import React, { useState } from 'react';
 // images from ultimate werewolf
 import Doppelganger from './images/Doppelganger.jpeg'
 import Drunk from './images/Drunk.png'
-import Hunter from './images/Hunter.png'
-import Insomniac from './images/Insomniac.png'
+import Hunter from './images/HunterNew.png'
+import Insomniac from './images/InsomniacNew.png'
 import Mason from './images/Mason.png'
 import Minion from './images/Minion.jpeg'
-import Robber from './images/Robber.png'
-import Seer from './images/Seer.png'
+import Robber from './images/RobberNew.png'
+import Seer from './images/SeerNew.png'
 import Tanner from './images/Tanner.png'
-import Troublemaker from './images/Troublemaker.png'
-import Villager from './images/Villager.png'
-import Werewolf from './images/Werewolf.jpeg'
+import Troublemaker from './images/TroubleMakerNew.png'
+import Villager from './images/VillagerNew1.png'
+import Werewolf from './images/werewolfNew.jpg'
 
+// buttons
+import CharacterSelection from './images/CharacterSelectionpng.png'
+import instruction from './images/instruction.png'
 
 function App() {
   const [whatValue, setwhatValue] = useState('empty')
@@ -154,7 +157,7 @@ function App() {
             (
             <tr key={characters.indexOf(character)} className={classForRow}>
                 <p className="playCharacter">{character}</p>
-              <button className="btn btn-success" onClick={() => swapCharacters(characters.indexOf(character), swapCharacterIndex, characters, setcharacters)}>Swap</button>
+              <button className="btn btn-secondary" onClick={() => swapCharacters(characters.indexOf(character), swapCharacterIndex, characters, setcharacters)}>Swap</button>
                 <select id="swap" onChange={(e) => setswapCharacterIndex(e.target.value)}>
                   {characters.map((character) => (
                     <option value={characters.indexOf(character)}>{character}</option>
@@ -393,8 +396,8 @@ function App() {
               </table> */}
             </div>
             <div className="playPageButtonBox">
-              <button className="btn btn-info btn-lg" onClick={() => StartShuffle()}>Randomize</button>
-              <button type="button" className="btn btn-primary btn-lg" onClick={() => setwhatValue('playerInput')}>Back</button>
+              <button className="btn btn-secondary btn-lg" onClick={() => StartShuffle()}>Randomize</button>
+              <button type="button" className="btn btn-dark btn-lg" onClick={() => setwhatValue('playerInput')}>Back</button>
             </div>
           </div>
         )
@@ -407,6 +410,7 @@ function App() {
       case 'instruction':
         return (
           <div>
+            <h1 className="instructionTitle">Click on Character for Instructions</h1>
             <div className="container">
               <div onClick={() => window.open("https://one-night.fandom.com/wiki/Werewolf")}>
                 <img src={Werewolf} alt="Werewolf" />
@@ -441,17 +445,19 @@ function App() {
                 <img src={Hunter} alt="Hunter" />
               </div>
             </div>
-            <button type="button" className="btn btn-primary" onClick={() => setwhatValue('empty')}>Back</button>
+            <button type="button" className="btn btn-secondary btn-lg" onClick={() => setwhatValue('empty')}>Back</button>
           </div>
         )
       default:
         return(
-          <div>
-            <h1>Please choose if you want to explain or play</h1>
+          <div className="defaultPageBox">
+            <h1>ULTIMATE WEREWOLF ONLINE</h1>
             <div className="outerBox">
               <div className="buttonBox">
-                <button type="button" className="btn btn-primary mr-4" onClick={() => setwhatValue('instruction')}>Instruction</button>
-                <button type="button" className="btn btn-primary" onClick={() => setwhatValue('character')}>Character Selection</button>
+                <img src={instruction} alt="instruction" onClick={() => setwhatValue('instruction')}/>
+                <img src={CharacterSelection} alt="instruction" onClick={() => setwhatValue('character')}/>
+                {/* <button type="button" className="btn btn-secondary btn-lg mr-4" onClick={() => setwhatValue('instruction')}>Instruction</button>
+                <button type="button" className="btn btn-dark btn-lg" onClick={() => setwhatValue('character')}>Character Selection</button> */}
               </div>
             </div>
           </div>
