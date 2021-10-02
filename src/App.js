@@ -14,10 +14,19 @@ import Tanner from './images/Tanner.png'
 import Troublemaker from './images/TroubleMakerNew.png'
 import Villager from './images/VillagerNew1.png'
 import Werewolf from './images/werewolfNew.jpg'
+import Martyr from './images/Martyr.png'
+import Bodyguard from './images/Bodyguard.png'
+import Beholder from './images/Beholder.png'
+import Cursed from './images/Cursed.png'
+import DireWolf from './images/DireWolf.png'
+import Mayor from './images/Mayor.png'
+import WhiteWolf from './images/WhiteWolf.png'
 
 // buttons
 import CharacterSelection from './images/CharacterSelectionpng.png'
 import instruction from './images/instruction.png'
+import OneNight from './images/OneNight.png'
+import EndlessNight from './images/EndlessNight.png'
 
 function App() {
   const [whatValue, setwhatValue] = useState('empty')
@@ -128,7 +137,7 @@ function App() {
       shuffleCharacters()
       console.log(Randomcharacters)
       console.log(characters)
-      if (x === 10) {
+      if (x === 20) {
       console.log(x)
       break;
       } else {
@@ -303,6 +312,9 @@ function App() {
                   <div onClick={() => addCharacter('Hunter')}>
                     <img src={Hunter} alt="Hunter" />
                   </div>
+                  {/* <div onClick={() => addCharacter('Martyr')}>
+                    <img src={Martyr} alt="Martyr" />
+                  </div> */}
                   {/* <div onClick={() => window.open("https://one-night.fandom.com/wiki/Tanner")}>
                     <img src={Tanner} alt="Tanner" />
                   </div> */}
@@ -311,7 +323,6 @@ function App() {
                   <button type="button" className="btn btn-primary btn-lg" onClick={() => setwhatValue('empty')}>Back</button>
                   {showPlayButton(characters)}
                 </div>
-
                 {/* <button type="button" className="btn btn-primary" onClick={() => setwhatValue('play')}>Play</button> */}
               </div>
               <table className="SelectedCharacterDisplayTable">
@@ -319,6 +330,74 @@ function App() {
                     <th>Character Added</th>
                   </tr> */}
                   {TableCharacters(isItUpdating)}
+              </table>
+            </div>
+          </div>
+        )
+      case 'MultiNightCharacter':
+        return (
+          <div className="CharacterSelectionMainContainer">
+            <div className="TopBar">
+              <div className="CharacterSelectionInstruction">
+                <h1>Click on the characters cards to select it</h1>
+              </div>
+              <div className="CharacterAdded">
+                <h1>{characters.length} Character Added</h1>
+              </div>
+            </div>
+            <div className="CharacterSelectionBox">
+              <div>
+                <div className="container">
+                  <div onClick={() => addCharacter('werewolf')}>
+                    <img src={Werewolf} alt="Werewolf" />
+                    {/* <p>Werewolves</p> */}
+                  </div>
+                  <div onClick={() => addCharacter('Mason')}>
+                    <img src={Mason} alt="Mason" />
+                  </div>
+                  <div onClick={() => addCharacter('Seer')}>
+                    <img src={Seer} alt="Seer" />
+                  </div>
+                  {/* roles that do not wake */}
+                  <div onClick={() => addCharacter('villager')}>
+                    <img src={Villager} alt="Villager" />
+                  </div>
+                  <div onClick={() => addCharacter('Hunter')}>
+                    <img src={Hunter} alt="Hunter" />
+                  </div>
+                  <div onClick={() => addCharacter('Martyr')}>
+                    <img src={Martyr} alt="Martyr" />
+                  </div>
+                  <div onClick={() => addCharacter('Bodyguard')}>
+                    <img src={Bodyguard} alt="Bodyguard" />
+                  </div>
+                  <div onClick={() => addCharacter('Beholder')}>
+                    <img src={Beholder} alt="Beholder" />
+                  </div>
+                  <div onClick={() => addCharacter('Cursed')}>
+                    <img src={Cursed} alt="Cursed" />
+                  </div>
+                  <div onClick={() => addCharacter('DireWolf')}>
+                    <img src={DireWolf} alt="DireWolf" />
+                  </div>
+                  <div onClick={() => addCharacter('DireWolf')}>
+                    <img src={Mayor} alt="Mayor" />
+                  </div>
+                  <div onClick={() => addCharacter('WhiteWolf')}>
+                    <img src={WhiteWolf} alt="WhiteWolf" />
+                  </div>
+                </div>
+                <div className="characterSelectionbackButton">
+                  <button type="button" className="btn btn-primary btn-lg" onClick={() => setwhatValue('empty')}>Back</button>
+                  {showPlayButton(characters)}
+                </div>
+                {/* <button type="button" className="btn btn-primary" onClick={() => setwhatValue('play')}>Play</button> */}
+              </div>
+              <table className="SelectedCharacterDisplayTable">
+                {/* <tr>
+                    <th>Character Added</th>
+                  </tr> */}
+                {TableCharacters(isItUpdating)}
               </table>
             </div>
           </div>
@@ -444,8 +523,43 @@ function App() {
               <div onClick={() => window.open("https://one-night.fandom.com/wiki/Hunter")}>
                 <img src={Hunter} alt="Hunter" />
               </div>
+              <div onClick={() => window.open("https://werewolf-the-game.fandom.com/wiki/The_Martyr")}>
+                <img src={Martyr} alt="Hunter" />
+              </div>
+              <div onClick={() => window.open("https://board-games-galore.fandom.com/wiki/Ultimate_Werewolf")}>
+                <img src={Bodyguard} alt="Hunter" />
+              </div>
+              <div onClick={() => window.open("https://werewolf-the-game.fandom.com/wiki/The_Martyr")}>
+                <img src={Beholder} alt="Hunter" />
+              </div>
+              <div onClick={() => window.open("https://werewolf-the-game.fandom.com/wiki/The_Martyr")}>
+                <img src={Cursed} alt="Hunter" />
+              </div>
+              <div onClick={() => window.open("https://werewolf-the-game.fandom.com/wiki/The_Martyr")}>
+                <img src={DireWolf} alt="Hunter" />
+              </div>
+              <div onClick={() => window.open("https://werewolf-the-game.fandom.com/wiki/The_Martyr")}>
+                <img src={Mayor} alt="Hunter" />
+              </div>
+              <div onClick={() => window.open("https://werewolf-the-game.fandom.com/wiki/The_Martyr")}>
+                <img src={WhiteWolf} alt="Hunter" />
+              </div>
             </div>
             <button type="button" className="btn btn-secondary btn-lg" onClick={() => setwhatValue('empty')}>Back</button>
+          </div>
+        )
+      case 'WhichNight':
+        return (
+          <div className="defaultPageBox">
+            <h1>ULTIMATE WEREWOLF ONLINE</h1>
+            <div className="outerBox">
+              <div className="buttonBox">
+                <img src={OneNight} alt="OneNight" onClick={() => setwhatValue('character')} />
+                <img src={EndlessNight} alt="EndlessNight" onClick={() => setwhatValue('MultiNightCharacter')} />
+                {/* <button type="button" className="btn btn-secondary btn-lg mr-4" onClick={() => setwhatValue('instruction')}>Instruction</button>
+                <button type="button" className="btn btn-dark btn-lg" onClick={() => setwhatValue('character')}>Character Selection</button> */}
+              </div>
+            </div>
           </div>
         )
       default:
@@ -455,7 +569,7 @@ function App() {
             <div className="outerBox">
               <div className="buttonBox">
                 <img src={instruction} alt="instruction" onClick={() => setwhatValue('instruction')}/>
-                <img src={CharacterSelection} alt="instruction" onClick={() => setwhatValue('character')}/>
+                <img src={CharacterSelection} alt="instruction" onClick={() => setwhatValue('WhichNight')}/>
                 {/* <button type="button" className="btn btn-secondary btn-lg mr-4" onClick={() => setwhatValue('instruction')}>Instruction</button>
                 <button type="button" className="btn btn-dark btn-lg" onClick={() => setwhatValue('character')}>Character Selection</button> */}
               </div>
