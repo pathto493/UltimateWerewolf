@@ -36,7 +36,7 @@ function App() {
   const [Randomcharacters, setRandomcharacters] = useState([])
   const [isItUpdating, setisItUpdating] = useState(false)
   const [isItUpdatingPlayerList, setisItUpdatingPlayerList] = useState(false)
-  const [swapCharacterIndex, setswapCharacterIndex] = useState(0)
+  const [swapCharacterIndex, setswapCharacterIndex] = useState("default")
 
   // duplicate counter
   const [WereWolfCount, setWereWolfCount] = useState(0)
@@ -119,7 +119,6 @@ function App() {
 
   function shuffleCharacters() {
     // get the max lenght of array
-    console.log(characters.length)
     // use a random num generator to call out the item in array by position
     let index = getRandomInt(characters.length)
     // push that new item into a new array and delete the item from the original array
@@ -129,16 +128,11 @@ function App() {
   }
   const [shuffleStatus, setshuffleStatus] = useState(false)
   function StartShuffle() {
-    console.log(characters)
-    console.log(characters.length)
     let x = 0
     while (characters.length !== 0) {
       setshuffleStatus(true)
       shuffleCharacters()
-      console.log(Randomcharacters)
-      console.log(characters)
       if (x === 20) {
-      console.log(x)
       break;
       } else {
         x++
@@ -151,6 +145,7 @@ function App() {
     }, 500);
   }
 
+  const [toShowSwapArray, settoShowSwapArray] = useState([])
   const isitShuffling = (yesOrNo,classForRow) => {
     if (yesOrNo === true) {
       return (
@@ -166,10 +161,12 @@ function App() {
             (
             <tr key={characters.indexOf(character)} className={classForRow}>
                 <p className="playCharacter">{character}</p>
-              <button className="btn btn-secondary" onClick={() => swapCharacters(characters.indexOf(character), swapCharacterIndex, characters, setcharacters)}>Swap</button>
-                <select id="swap" onChange={(e) => setswapCharacterIndex(e.target.value)}>
+              {/* <button className="btn btn-secondary" onClick={() => swapCharacters(characters.indexOf(character), swapCharacterIndex, characters, setcharacters)}>Swap</button> */}
+              {showSwapButton(character)}
+              <select id="swap" onChange={(e) => swapButtonClicked(e.target.value)}>
+                  <option value="default">Character List</option>
                   {characters.map((character) => (
-                    <option value={characters.indexOf(character)}>{character}</option>
+                      <option value={character }>{character}</option>
                   ))}
                 </select>
               </tr>
@@ -181,21 +178,44 @@ function App() {
     }
   }
 
-  function swapCharacters(itemAIndex, itemBIndex, array, setter) {
-    let select = document.getElementById('swap');
-    // store the original value of item A and item B
-    let itemA = array[itemAIndex]
-    let itemB = array[itemBIndex]
-    // make index of item A to be B and make index of item B to be A
-    array[itemAIndex] = itemB
-    array[itemBIndex] = itemA
-    setter(array)
-    setwhatValue('wait')
-    setTimeout(function () {
-      setwhatValue('play')
-    }, 1000);
 
+  const showSwapButton = (character) => {
+    // if (toShowSwapArray.includes(character) === true) {
+    if (character !== 'default') {
+      return (
+        <button className="btn btn-secondary" onClick={() => swapCharacters(characters.indexOf(character), swapCharacterIndex, characters, setcharacters)}>Swap</button>
+      )
+    } else {
+      temp()
+    }
   }
+
+  function swapCharacters(itemAIndex, itemBIndex, array, setter) {
+    if (itemBIndex === "default") {
+      alert('Please select a character from the list that you want to swap with')
+    }
+    else {
+      // store the original value of item A and item B
+      let itemA = array[itemAIndex]
+      let itemB = array[itemBIndex]
+      // make index of item A to be B and make index of item B to be A
+      array[itemAIndex] = itemB
+      array[itemBIndex] = itemA
+      setter(array)
+      setwhatValue('wait')
+      setTimeout(function () {
+        setwhatValue('play')
+      }, 1000);
+      setswapCharacterIndex('default')
+    }
+  }
+
+  function swapButtonClicked(value) {
+    let array = [value]
+    settoShowSwapArray(array)
+    setswapCharacterIndex(characters.indexOf(value))
+  }
+
   const [listReady, setlistReady] = useState(false)
   function PlayerListReady() {
     if (playerArrayHolder.length === characters.length) {
@@ -380,7 +400,7 @@ function App() {
                   <div onClick={() => addCharacter('DireWolf')}>
                     <img src={DireWolf} alt="DireWolf" />
                   </div>
-                  <div onClick={() => addCharacter('DireWolf')}>
+                  <div onClick={() => addCharacter('Mayor')}>
                     <img src={Mayor} alt="Mayor" />
                   </div>
                   <div onClick={() => addCharacter('WhiteWolf')}>
@@ -440,7 +460,6 @@ function App() {
           </div>
         )
       case 'play':
-        console.log(characters)
         return (
           <div className="playMainContainer">
             <div className="PlayerCharacterTable">
